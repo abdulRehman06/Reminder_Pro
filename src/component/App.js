@@ -1,19 +1,21 @@
 import React, { Component } from 'react'
-import { ucAddReminder  , ucdeleteReminder } from '../actions/actions'
+import { ucAddReminder, ucdeleteReminder } from '../actions/actions'
 import { connect } from 'react-redux';
+import moment  from 'moment';
 
 class App extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            text: ''
+            text: '',
+            dueDate: null
         }
     }
     addreminder() {
         // console.log('this.state'  , this.state.text)
-        this.props.ucAddReminder(this.state.text)
-
-        this.setState({ text : '' })
+        let { text , dueDate } = this.state  ;
+        this.props.ucAddReminder(text , dueDate )
+        this.setState({ text: '' })
         // console.log('this.state.text', this.state.text)
     }
     reminderList() {
@@ -25,9 +27,10 @@ class App extends Component {
                         <li key={reminder.id} className="list-group-item">
                             <div className="list-item" >
                                 <div>  {reminder.text} </div>
+                                <div><em>{moment(new Date(reminder.dueDate)).fromNow()}</em></div>
                             </div>
-                            <div className=" delete-button" key={reminder.id}  
-                            onClick = { (ev) => this.props.ucdeleteReminder(reminder.id)}
+                            <div className=" delete-button" key={reminder.id}
+                                onClick={(ev) => this.props.ucdeleteReminder(reminder.id)}
                             >
                                 &#x2715;  {/* unicode   */}
                             </div>
@@ -50,8 +53,11 @@ class App extends Component {
                 <div className="form-group form">
                     <div className="form-inline reminder-form">
                         <input type="text" name="" id="" className="form-control" placeholder="I have to ..."
-                            value=  {this.state.text }
+                            value={this.state.text}
                             onChange={(ev) => this.setState({ text: ev.target.value })}
+                        />
+                        <input className="form-control" type="datetime-local"
+                            onChange={(ev) => this.setState({ dueDate: ev.target.value })}
                         />
                         <button type="button" name="" id="" className="btn btn-primary"
                             onClick={() => this.addreminder()}
@@ -70,4 +76,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { ucAddReminder , ucdeleteReminder  })(App); 
+export default connect(mapStateToProps, { ucAddReminder, ucdeleteReminder })(App); 
