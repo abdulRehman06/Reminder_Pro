@@ -1,4 +1,4 @@
-import { ADD_REMINDER, DELETE_REMINDER } from '../constant/constant'
+import { ADD_REMINDER, DELETE_REMINDER , CLEAR_REMINDER } from '../constant/constant'
 
 
 
@@ -18,6 +18,12 @@ export function ucdeleteReminder(id) {
   const action = {
     type: DELETE_REMINDER,
      id : id
+  }
+  return action;
+}
+export function ucClearReminder() {
+  const action = {
+    type: CLEAR_REMINDER,
   }
   return action;
 }

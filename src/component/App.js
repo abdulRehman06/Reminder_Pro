@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ucAddReminder, ucdeleteReminder } from '../actions/actions'
+import { ucAddReminder, ucdeleteReminder  , ucClearReminder} from '../actions/actions'
 import { connect } from 'react-redux';
 import moment  from 'moment';
 
@@ -11,6 +11,8 @@ class App extends Component {
             dueDate: null
         }
     }
+
+
     addreminder() {
         // console.log('this.state'  , this.state.text)
         let { text , dueDate } = this.state  ;
@@ -65,6 +67,11 @@ class App extends Component {
                     </div>
                 </div>
                 {this.reminderList()}
+                <div className="">
+                <button type="button" name="" id="" className="btn btn-danger delete-button"
+                            onClick={() => this.props.ucClearReminder()}
+                        >Clear Reminder</button>
+                </div>
             </div>
 
         )
@@ -76,4 +83,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { ucAddReminder, ucdeleteReminder })(App); 
+export default connect(mapStateToProps, { ucAddReminder, ucdeleteReminder  , ucClearReminder})(App); 

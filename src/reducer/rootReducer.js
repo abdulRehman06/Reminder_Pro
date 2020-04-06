@@ -1,5 +1,5 @@
-import { ADD_REMINDER , DELETE_REMINDER  } from '../constant/constant'
-import { act } from 'react-dom/test-utils';
+import { ADD_REMINDER , DELETE_REMINDER  , CLEAR_REMINDER } from '../constant/constant'
+import { read_cookie , bake_cookie}  from 'sfcookies'
 
 const reminder = (action) => {
     let { text, dueDate } = action;
@@ -17,15 +17,23 @@ const removeById = (state = [], id) => {
   }
 
 export const rootReducer = (state = [], action) => {
-    console.log('root reduces is called')
-    console.log('action', action)
+    // console.log('root reduces is called')
+    // console.log('action', action)
+
     let reminders = null;
+    state = read_cookie( 'reminders' ) // if browser is refresh then read data from cookie
     switch (action.type) {
         case ADD_REMINDER:
             reminders = [...state, reminder(action)];
+            bake_cookie( 'reminders' , reminders ) // setting values in cookie
             return reminders;
         case DELETE_REMINDER:
-            reminders =  removeById( state ,  action.id)
+            reminders = removeById( state ,  action.id)
+            bake_cookie( 'reminders' , reminders ) // setting values in cookie
+            return  reminders ;
+        case CLEAR_REMINDER:
+            reminders  =  [] ;  // clear reminder 
+            bake_cookie( 'reminders' , reminders ) // clear cookie
             return  reminders ;
         default:
             return state;

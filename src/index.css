@@ -25,6 +25,8 @@
   
   .delete-button {
     float: right;
-    padding-left: 5px;
+    padding: 10px;
+    margin-top: 10px
+    ;
   }
   
